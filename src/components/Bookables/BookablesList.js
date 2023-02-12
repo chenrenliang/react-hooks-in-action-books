@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { bookables } from "../../static.json";
+import { FaArrowRight } from "react-icons/fa";
 
 export default function BookablesList() {
   const group = "Rooms";
@@ -7,22 +8,34 @@ export default function BookablesList() {
 
   const [bookableIndex, setBookableIndex] = useState(1);
 
+  function nextBookable() {
+    setBookableIndex((i) => (i + 1) % bookablesInGroup.length);
+  }
+
   function changeBookable(selectedIndex) {
     bookableIndex = selectedIndex;
     console.log(selectedIndex);
   }
 
   return (
-    <ul className="bookables items-list-nav">
-      {bookablesInGroup.map((b, i) => {
-        return (
-          <li key={b.id} className={i === bookableIndex ? "selected" : null}>
-            <button className="btn" onClick={() => setBookableIndex(i)}>
-              {b.title}
-            </button>
-          </li>
-        );
-      })}
-    </ul>
+    <div>
+      <ul className="bookables items-list-nav">
+        {bookablesInGroup.map((b, i) => {
+          return (
+            <li key={b.id} className={i === bookableIndex ? "selected" : null}>
+              <button className="btn" onClick={() => setBookableIndex(i)}>
+                {b.title}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+      <p>
+        <button className="btn" onClick={nextBookable} autoFocus>
+          <FaArrowRight />
+          <span>Next</span>
+        </button>
+      </p>
+    </div>
   );
 }
